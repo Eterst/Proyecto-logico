@@ -8,6 +8,24 @@ digito("YNYYYYY",6):-!.
 digito("YYYNNNN",7):-!.
 digito("YYYYYYY",8):-!.
 digito("YYYYNYY",9):-!.
+
+num('Y',1).
+num('N',0).
+num('N',1).
+
+numero(0,[1,1,1,1,1,1,0]):-!.
+numero(1,[0,1,1,0,0,0,0]):-!.
+numero(2,[1,1,0,1,1,0,1]):-!.
+numero(3,[1,1,1,1,0,0,1]):-!.
+numero(4,[0,1,1,0,0,1,1]):-!.
+numero(5,[1,0,1,1,0,1,1]):-!.
+numero(6,[1,0,1,1,1,1,1]):-!.
+numero(7,[1,1,1,0,0,0,0]):-!.
+numero(8,[1,1,1,1,1,1,1]):-!.
+numero(9,[1,1,1,1,0,1,1]):-!.
+
+
+
 mimap(_Rel, [],[]):-!.
 mimap(Rel,[H|T], [HR|TR]):- call(Rel,H,HR), mimap(Rel,T,TR).
 
