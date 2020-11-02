@@ -9,8 +9,6 @@
 %digito("YYYYYYY",8):-!.
 %digito("YYYYNYY",9):-!.
 
-%dividir(L,X):- split(L,7,LS1,LS2), split(LS2,7,LS3,LS4), append([LS1],[LS3],LS5), append(LS5,[LS4],X).
-
 %mapsum([],0):-!.
 %mapsum([H|T], N):- mapsum(T,A), N is H+A.
 
@@ -22,9 +20,9 @@
 %decrem([H|T], Anterior):- decimal(H, D), decrem(T, D), Anterior is D+1, !.
 %decrem([H|T], Anterior):- Anterior is D+1, decimal(H, Anterior), decimal(Anterior, D)+1.
 
-num(89,1):-!.
-num(78,0):-!.
-num(78,1):-!.
+num(89,1).
+num(78,0).
+num(78,1).
 
 numero(0,[1,1,1,1,1,1,0]):-!.
 numero(1,[0,1,1,0,0,0,0]):-!.
@@ -41,7 +39,18 @@ split([],_N,[],[]):-!.
 split(L,0,[],L):-!.
 split([H|T], N, [H|LS1],LS2):- N1 is N-1, split(T,N1,LS1,LS2).
 
+dividir(L,X):- split(L,7,LS1,LS2), split(LS2,7,LS3,LS4), append([LS1],[LS3],LS5), append(LS5,[LS4],X).
+
 mimap(_Rel, [],[]):-!.
 mimap(Rel,[H|T], [HR|TR]):- call(Rel,H,HR), mimap(Rel,T,TR).
 
-decimal(L,X):- mimap(num,L,X),!.
+decimal(L,LT2):- mimap(num,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
+
+decremental([A,B,C],[A2,B2,C2]):- SB2 is (B2*10)+C2, N2 is (A2*100)+SB2, SB is (B*10)+C, N1 is (A*100)+SB, N1 is N2+1,!.
+decremental(_L,[]):-!.
+
+car([H|_T], H):-!.
+cdr([_H|T], T):-!.
+
+decrem([]):-!.
+decrem([H|T]):- decimal(H,DH), car(T,CT), decimal(CT,DT), decremental(DH,DT), decrem(T).
