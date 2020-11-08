@@ -43,10 +43,10 @@ mimap(Rel,[H|T], [HR|TR]):- call(Rel,H,HR), mimap(Rel,T,TR).
 
 num(_LL,_N,89,1).
 num(_LL,_N,78,0).
-num(LL,N,78,1):- quemada(LL,N).
+num(LL,N,78,1):- quemada(LL,N,78).
 
-quemada([],_N):-!.
-quemada([H|T],N):- nsimo(N,H,78), quemada(T,N).%esto no esta verificando que no se encienda denuevo creo
+quemada([],_N,E):-!.
+quemada([H|T],N,E):- nsimo(N,H,E), quemada(T,N,E).
 
 encontrarDigitos(_LL,[],_N):-!.
 encontrarDigitos(LL,[H|T], X):- encontrarDigitos(LL, [H|T], 0, X).
@@ -62,5 +62,5 @@ car([],[]):-!.
 car([H|_T], H):-!.
 cdr([_H|T], T):-!.
 
-decrem([]):-!.
-decrem([H|T]):- decimal(T,H,DH), car(T,CT), decimal(T, CT,DT), decremental(DH,DT), !, decrem(T), !.
+decremento([H|[]]):-!.
+decremento([H|T]):- decimal(T,H,DH), car(T,CT), decimal(T, CT,DT), decremental(DH,DT), !, decremento(T), !.
