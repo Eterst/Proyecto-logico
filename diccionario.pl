@@ -1,29 +1,3 @@
-%digito("YYYYYYN",0):-!.
-%digito("NYYNNNN",1):-!.
-%digito("YYNYYNY",2):-!.
-%digito("YYYYNNY",3):-!.
-%digito("NYYNNYY",4):-!.
-%digito("YNYYNYY",5):-!.
-%digito("YNYYYYY",6):-!.
-%digito("YYYNNNN",7):-!.
-%digito("YYYYYYY",8):-!.
-%digito("YYYYNYY",9):-!.
-
-%mapsum([],0):-!.
-%mapsum([H|T], N):- mapsum(T,A), N is H+A.
-
-%decimal(L,N):- dividir(L,L1), mimap(digito,L1,SBL), mapsum(SBL,N).
-
-%decrem([H|T]):-decimal(H,DH), decrem(T,DH).
-%decrem([_H|[]]):-!.
-%decrem([],_Anterior):-!.
-%decrem([H|T], Anterior):- decimal(H, D), decrem(T, D), Anterior is D+1, !.
-%decrem([H|T], Anterior):- Anterior is D+1, decimal(H, Anterior), decimal(Anterior, D)+1.
-
-num(_LL,_N,89,1).
-num(_LL,_N,78,0).
-num(LL,N,78,1):- noprendio(LL,N).
-
 numero(0,[1,1,1,1,1,1,0]):-!.
 numero(1,[0,1,1,0,0,0,0]):-!.
 numero(2,[1,1,0,1,1,0,1]):-!.
@@ -67,15 +41,19 @@ dividir(L,X):- split(L,7,LS1,LS2), split(LS2,7,LS3,LS4), append([LS1],[LS3],LS5)
 mimap(_Rel, [],[]):-!.
 mimap(Rel,[H|T], [HR|TR]):- call(Rel,H,HR), mimap(Rel,T,TR).
 
-noprendio([],_N):-!.
-noprendio([H|T],N):- nsimo(N,H,78), noprendio(T,N).
+num(_LL,_N,89,1).
+num(_LL,_N,78,0).
+num(LL,N,78,1):- quemada(LL,N).
 
-mapbueno(_LL,[],_N):-!.
-mapbueno(LL,[H|T], X):- mapbueno(LL, [H|T], 0, X).
-mapbueno(LL,[H|T], N, [HR|TR]):- call(num,LL,N,H,HR), N1 is N+1, mapbueno(LL,T,N1,TR).
+quemada([],_N):-!.
+quemada([H|T],N):- nsimo(N,H,78), quemada(T,N).%esto no esta verificando que no se encienda denuevo creo
+
+encontrarDigitos(_LL,[],_N):-!.
+encontrarDigitos(LL,[H|T], X):- encontrarDigitos(LL, [H|T], 0, X).
+encontrarDigitos(LL,[H|T], N, [HR|TR]):- call(num,LL,N,H,HR), N1 is N+1, encontrarDigitos(LL,T,N1,TR).
 
 decimal(_LL,[],[0,0,-1]):-!.
-decimal(LL,L,LT2):- mapbueno(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
+decimal(LL,L,LT2):- encontrarDigitos(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
 
 decremental([A,B,C],[A2,B2,C2]):- SB2 is (B2*10)+C2, N2 is (A2*100)+SB2, SB is (B*10)+C, N1 is (A*100)+SB, N1 is N2+1,!.
 decremental(_L,[]):-!.
