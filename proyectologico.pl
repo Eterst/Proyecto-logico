@@ -54,14 +54,19 @@ decremental(_L,[]):-!.
 num(_LL,_N,89,1).
 num(_LL,_N,78,0).
 num(LL,N,78,1):- quemada(LL,N).
-%todo antes de este punto funciona
 
-encontrarDigitos(_LL,[],_N,[]):-!. %si no cambiar a caso base cuando el siguiente es vacio y retornar la cabeza
+encontrarDigitos(_LL,[],_N):-!.
 encontrarDigitos(LL,L, X):- encontrarDigitos(LL, L, 0, X).
+
+encontrarDigitos(_LL,[],_N,[]):-!.
+
+
+encontrarDigitos(_LL,[],_N,[]):-!.
+encontrarDigitos(LL,L, X):- encontrarDigitos(LL, L, 0, X).
+
 encontrarDigitos(LL,[H|T], N, [HR|TR]):- call(num,LL,N,H,HR), N1 is N+1, encontrarDigitos(LL,T,N1,TR).
-%encontrar digitos siempre da no
 
-decimal(LL,L,LT2):- encontrarDigitos(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).%aun no pruebo
+decimal(LL,L,LT2):- encontrarDigitos(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
 
-decremento([H|[]]):-!.
-decremento([H|T]):- decimal(T,H,DH), car(T,CT), decimal(T, CT,DT), decremental(DH,DT), !, decremento(T), !.%aun no pruebo
+decremento([_H|[]]):-!.
+decremento([H|T]):- decimal(T,H,DH), car(T,CT), decimal(T, CT,DT), decremental(DH,DT), !, decremento(T), !.
