@@ -45,16 +45,18 @@ dividir(L,X):- split(L,7,LS1,LS2), split(LS2,7,LS3,LS4), append([LS1],[LS3],LS5)
 mimap(_Rel, [],[]):-!.
 mimap(Rel,[H|T], [HR|TR]):- call(Rel,H,HR), mimap(Rel,T,TR).
 
-num(_LL,_N,89,1).
-num(_LL,_N,78,0).
-num(LL,N,78,1):- quemada(LL,N,78).
-
 quemada([],_N,E):-!.
 quemada([H|T],N,E):- nsimo(N,H,E), quemada(T,N,E).
 
+%todo antes de este punto funciona
+
 encontrarDigitos(_LL,[],_N):-!.
-encontrarDigitos(LL,[H|T], X):- encontrarDigitos(LL, [H|T], 0, X).
-encontrarDigitos(LL,[H|T], N, [HR|TR]):- call(num,LL,N,H,HR), N1 is N+1, encontrarDigitos(LL,T,N1,TR).
+encontrarDigitos([LLH|LLT],[H|T], X):- encontrarDigitos([LLH|LLT], [H|T], 0, X).
+encontrarDigitos([LLH|LLT],[H|T], N, [HR|TR]):- call(num,LLT,N,H,HR), N1 is N+1, encontrarDigitos(LLT,T,N1,TR).
+
+num(_LL,_N,89,1).
+num(_LL,_N,78,0). %hay un problema con 78 a veces solo entra para ser 0
+num(LL,N,78,1):- quemada(LL,N,78). % y me queda probar el conjunto de todo
 
 decimal(LL,L,LT2):- encontrarDigitos(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
 
