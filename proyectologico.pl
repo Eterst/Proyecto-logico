@@ -55,15 +55,10 @@ num(_LL,_N,89,1).
 num(_LL,_N,78,0).
 num(LL,N,78,1):- quemada(LL,N).
 
-encontrarDigitos(_LL,[],_N):-!.
+encontrarDigitos(_LL,[],[]):-!.
 encontrarDigitos(LL,L, X):- encontrarDigitos(LL, L, 0, X).
 
 encontrarDigitos(_LL,[],_N,[]):-!.
-
-
-encontrarDigitos(_LL,[],_N,[]):-!.
-encontrarDigitos(LL,L, X):- encontrarDigitos(LL, L, 0, X).
-
 encontrarDigitos(LL,[H|T], N, [HR|TR]):- call(num,LL,N,H,HR), N1 is N+1, encontrarDigitos(LL,T,N1,TR).
 
 decimal(LL,L,LT2):- encontrarDigitos(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
