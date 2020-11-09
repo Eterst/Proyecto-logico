@@ -9,6 +9,10 @@ numero(7,[1,1,1,0,0,0,0]):-!.
 numero(8,[1,1,1,1,1,1,1]):-!.
 numero(9,[1,1,1,1,0,1,1]):-!.
 
+car([],[]):-!.
+car([H|_T], H):-!.
+cdr([_H|T], T):-!.
+
 nsimo(0,[A,_B,_C,_D,_E,_F,_G,_A2,_B2,_C2,_D2,_E2,_F2,_G2,_A3,_B3,_C3,_D3,_E3,_F3,_G3],A).
 nsimo(1,[_A,B,_C,_D,_E,_F,_G,_A2,_B2,_C2,_D2,_E2,_F2,_G2,_A3,_B3,_C3,_D3,_E3,_F3,_G3],B).
 nsimo(2,[_A,_B,C,_D,_E,_F,_G,_A2,_B2,_C2,_D2,_E2,_F2,_G2,_A3,_B3,_C3,_D3,_E3,_F3,_G3],C).
@@ -52,15 +56,10 @@ encontrarDigitos(_LL,[],_N):-!.
 encontrarDigitos(LL,[H|T], X):- encontrarDigitos(LL, [H|T], 0, X).
 encontrarDigitos(LL,[H|T], N, [HR|TR]):- call(num,LL,N,H,HR), N1 is N+1, encontrarDigitos(LL,T,N1,TR).
 
-decimal(_LL,[],[0,0,-1]):-!.
 decimal(LL,L,LT2):- encontrarDigitos(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
 
 decremental([A,B,C],[A2,B2,C2]):- SB2 is (B2*10)+C2, N2 is (A2*100)+SB2, SB is (B*10)+C, N1 is (A*100)+SB, N1 is N2+1,!.
 decremental(_L,[]):-!.
-
-car([],[]):-!.
-car([H|_T], H):-!.
-cdr([_H|T], T):-!.
 
 decremento([H|[]]):-!.
 decremento([H|T]):- decimal(T,H,DH), car(T,CT), decimal(T, CT,DT), decremental(DH,DT), !, decremento(T), !.
