@@ -73,21 +73,18 @@ num(_LL,_N,89,1).
 num(_LL,_N,78,0).
 num(LL,N,78,1):- quemada(LL,N).
 
-%Argumentos: 
-%Ancla:
+%Argumentos: Una lista que representa todas las secuencias, una lista que representa un estado.  
+%Ancla: El estado dado transformado en una lista de 1s y 0s. 
 encontrarDigitos(_LL,[],[]):-!.
 encontrarDigitos(LL,L, X):- encontrarDigitos(LL, L, 0, X).
-
-%Argumentos: 
-%Ancla:
 encontrarDigitos(_LL,[],_N,[]):-!.
 encontrarDigitos(LL,[H|T], N, [HR|TR]):- call(num,LL,N,H,HR), N1 is N+1, encontrarDigitos(LL,T,N1,TR).
 
-%Argumentos: 
-%Ancla:
+%Argumentos: Una lista que representa todas las secuencias, una lista que representa un estado.  
+%Ancla: Una lista de 3 valores decimales que representa el estado dado.
 decimal(LL,L,LT2):- encontrarDigitos(LL,L,LT), dividir(LT,LD), mimap(numero, LT2, LD).
 
-%Argumentos: 
-%Ancla:
+%Argumentos: Una lista de secuencia de 3 leds.
+%Ancla: Si es decremental o no.
 decremento([_H|[]]):-!.
 decremento([H|T]):- decimal(T,H,DH), car(T,CT), decimal(T, CT,DT), decremental(DH,DT), !, decremento(T), !.
